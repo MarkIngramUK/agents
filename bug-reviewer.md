@@ -65,6 +65,7 @@ git show <commit-hash>
 - [ ] New tests actually fail without the fix (regression tests should be genuine)
 - [ ] Tests cover the specific scenario from the bug report
 - [ ] No tests are trivially passing or testing implementation details rather than behaviour
+- [ ] Tests are reproducible: inputs and setup are isolated from external influence (network responses, third-party APIs, system state). The test does not rely on assumptions about ordering or content from sources that can vary between runs.
 
 **Security** (when applicable)
 - [ ] No new input validation gaps

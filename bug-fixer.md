@@ -83,3 +83,4 @@ Provide:
 - **Unresolvable build or test failure:** Stop. Report the exact error, what was attempted, and escalate to the user.
 - **Scope creep:** Do not fix unrelated issues encountered while implementing. Note them as observations in the handoff but do not act on them.
 - **Merge conflict:** Resolve conflicts conservatively. If the resolution is non-obvious, escalate rather than guessing.
+- **Test reproducibility:** When writing new tests, verify that inputs and setup are isolated from external influence (network responses, third-party APIs, system state, or other components whose output may vary). Choose inputs that specifically target the behaviour under test and do not rely on assumptions about ordering, content, or availability of external data. Tests must produce the same result on every run.

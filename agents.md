@@ -58,7 +58,7 @@ Model choices can be overridden per-project or per-invocation.
 - UK English in all commit messages, comments, PR descriptions, and analysis output.
 - Never include `Co-Authored-By: Claude` lines in commits.
 - Never include a "Generated with Claude Code" footer in PR descriptions.
-- All paths use forward slashes in shell commands.
+- All paths use forward slashes in shell commands. Never prefix commands with `cd <dir>` — the working directory is already set to the project root and persists across Bash calls. Use absolute paths or rely on the cwd directly.
 - Agents do not force-push, reset hard, or take other destructive git actions without explicit user confirmation.
 - **Delegate, never inline:** When the pipeline calls for a specific agent (e.g. Bug Reviewer), always invoke it via the Task tool — never perform its work inline in the main context, even when the user requests the action conversationally (e.g. "review this" or "do a deep dive"). The main context orchestrates; agents do the specialised work.
 
@@ -68,6 +68,23 @@ If any agent is blocked (ambiguous plan, unresolvable build failure, conflicting
 1. Stop immediately — do not guess or proceed.
 2. State clearly what it attempted and what blocked it.
 3. Ask the user for guidance before continuing.
+
+## Continuous Improvement
+
+Each agent should capture lessons during its work. At pipeline completion, the
+orchestrating context collects these and proposes spec updates to the user.
+
+**Convention:** Any agent may include an optional `### Lessons` section in its
+handoff output, listing:
+
+- A checklist item that was missing and would have caught a real gap
+- An edge case not covered by the current spec
+- A process step that caused rework or required human correction
+
+Lessons are scoped to the agent that produced them (e.g. a Bug Reviewer lesson
+targets `bug-reviewer.md`). The orchestrating context is responsible for
+reviewing collected lessons at the end of the pipeline and proposing concrete
+spec edits to the user.
 
 ## Additional Agent Ideas (stubs — not yet implemented)
 
